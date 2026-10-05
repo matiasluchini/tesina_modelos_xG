@@ -48,3 +48,11 @@ po/*~
 
 # RStudio Connect folder
 rsconnect/
+
+# Datos pesados (no se suben a GitHub)
+*.rds
+data/raw/fotmob/partidos/
+data/processed/muestras_modelos/
+
+# Checkpoints de Jupyter/Colab
+.ipynb_checkpoints/
