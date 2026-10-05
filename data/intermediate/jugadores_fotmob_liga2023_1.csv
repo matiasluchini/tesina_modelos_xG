@@ -1,0 +1,386 @@
+"","playerName","n"
+"1","Aaron Molinas",1
+"2","Aaron Quiroz",1
+"3","Abiel Osorio",1
+"4","Adam Bareiro",1
+"5","Adrian Martinez",1
+"6","Adrian Sanchez",1
+"7","Adrian Sporle",1
+"8","Agostino Spina",1
+"9","Agustin Alonso",1
+"10","Agustin Bolivar",1
+"11","Agustin Cardozo",1
+"12","Agustin Dattola",1
+"13","Agustin Giay",1
+"14","Agustin Martegani",1
+"15","Agustin Mulet",1
+"16","Agustin Obando",1
+"17","Agustin Ojeda",1
+"18","Agustin Palavecino",1
+"19","Agustin Sandez",1
+"20","Agustin Sant'Anna",1
+"21","Agustin Urzi",1
+"22","Alan Cantero",1
+"23","Alan Di Pippa",1
+"24","Alan Francisco Rodriguez",1
+"25","Alan Franco",1
+"26","Alan Jesus Rodriguez",1
+"27","Alan Lescano",1
+"28","Alan Sosa",1
+"29","Alan Varela",1
+"30","Alejandro Cabrera",1
+"31","Alejandro Donatti",1
+"32","Alejandro Maciel",1
+"33","Alejandro Medina",1
+"34","Alejandro Piedrahita",1
+"35","Alejandro Rébola",1
+"36","Alejo Toledo",1
+"37","Alejo Veliz",1
+"38","Alex Ibacache",1
+"39","Alexis Castro",1
+"40","Alexis Dominguez",1
+"41","Alexis Sabella",1
+"42","Alexis Soto",1
+"43","Alexis Steimbach",1
+"44","Andres Chavez",1
+"45","Andres Rios",1
+"46","Andres Vombergar",1
+"47","Andrew Teuten",1
+"48","Angel Benitez",1
+"49","Angelo Martino",1
+"50","Anibal Moreno",1
+"51","Antonio Napolitano",1
+"52","Ariel Mauricio Rojas",1
+"53","Armando Mendez",1
+"54","Augustin Ramirez",1
+"55","Augusto Schott",1
+"56","Axel Rodriguez",1
+"57","Ayrton Costa",1
+"58","Ayrton Cougo",1
+"59","Baldomero Perlaza",1
+"60","Baltasar Rodriguez",1
+"61","Bautista Barros Schelotto",1
+"62","Bautista Kociubinski",1
+"63","Benjamin Dominguez",1
+"64","Benjamin Rollheiser",1
+"65","Benjamin Schamine",1
+"66","Blas Armoa",1
+"67","Brahian Aleman",1
+"68","Brahian Cuello",1
+"69","Braian Aguirre",1
+"70","Braian Guille",1
+"71","Braian Martinez",1
+"72","Braian Rivero",1
+"73","Braian Salvareschi",1
+"74","Brian Abel Luciatti",1
+"75","Brian Aguirre",1
+"76","Brian Blasi",1
+"77","Brian Calderara",1
+"78","Brian Farioli",1
+"79","Brian Guzman",1
+"80","Brian Leizza",1
+"81","Brian Leonel Blando",1
+"82","Bruno Bianchi",1
+"83","Bruno Pitton",1
+"84","Bruno Sepulveda",1
+"85","Bruno Sosa",1
+"86","Bruno Valdez",1
+"87","Bruno Zapelli",1
+"88","Bryan Castrillon",1
+"89","Carlos Arce",1
+"90","Carlos Arrua",1
+"91","Carlos Quintana",1
+"92","Carlos Sánchez",1
+"93","Cesar Ibanez",1
+"94","Christian Oliva",1
+"95","Christian Ordonez",1
+"96","Ciro Rius",1
+"97","Claudio Corvalan",1
+"98","Claudio Jeremias Echeverri",1
+"99","Cristian Alberto Tarragona",1
+"100","Cristian Baez",1
+"101","Cristian Ferreira",1
+"102","Cristian Lema",1
+"103","Cristian Medina",1
+"104","Cristian Menendez",1
+"105","Cristian Nahuel Barrios",1
+"106","Cristian Torres",1
+"107","Cristian Vega",1
+"108","Cristian Zabala",1
+"109","Damian Alberto Martinez",1
+"110","Damian Fernandez",1
+"111","Damian Perez",1
+"112","Daniel Barrea",1
+"113","Daniel Juarez",1
+"114","Daniel Lucero",1
+"115","Dario Benedetto",1
+"116","Dario Caceres",1
+"117","David Barbona",1
+"118","David Gallardo",1
+"119","David Martinez",1
+"120","David Sotelo",1
+"121","Diego Barrera",1
+"122","Diego Braghieri",1
+"123","Diego Calcaterra",1
+"124","Diego Godin",1
+"125","Diego Novaretti",1
+"126","Diego Ortegoza",1
+"127","Diego Rodriguez",1
+"128","Diego Valoyes",1
+"129","Diego Vásquez",1
+"130","Djorkaeff Reasco",1
+"131","Dylan Aquino",1
+"132","Edgar Elizalde",1
+"133","Edwin Cardona",1
+"134","Edwin Mosquera",1
+"135","Elian Irala",1
+"136","Elias Cabrera",1
+"137","Elias Gomez",1
+"138","Emanuel Aguilera",1
+"139","Emanuel Coronel",1
+"140","Emanuel Hernandez",1
+"141","Emanuel Insua",1
+"142","Emanuel Mammana",1
+"143","Emanuel Olivera",1
+"144","Emiliano Insua",1
+"145","Emiliano Mendez",1
+"146","Emiliano Saliadarre",1
+"147","Emmanuel Mas",1
+"148","Enzo Hernan Diaz",1
+"149","Enzo Kalinski",1
+"150","Enzo Larrosa",1
+"151","Enzo Luna",1
+"152","Enzo Pérez",1
+"153","Enzo Roldan",1
+"154","Equi Fernandez",1
+"155","Eric Daian Remedi",1
+"156","Eric Ivan Ramirez",1
+"157","Eric Meza",1
+"158","Erik Fernando Godoy",1
+"159","Eros Mancuso",1
+"160","Esteban Rolon",1
+"161","Exequiel Zeballos",1
+"162","Ezequiel Barco",1
+"163","Ezequiel Cerutti",1
+"164","Ezequiel Forclaz",1
+"165","Ezequiel Parnisari",1
+"166","Fabian Bordagaray",1
+"167","Fabio Pereyra",1
+"168","Fabricio Dominguez",1
+"169","Fabricio Oviedo",1
+"170","Facundo Cambeses",1
+"171","Facundo Cardozo",1
+"172","Facundo Castelli",1
+"173","Facundo Colidio",1
+"174","Facundo Echevarria",1
+"175","Facundo Farias",1
+"176","Facundo Ferreyra",1
+"177","Facundo Garces",1
+"178","Facundo Lencioni",1
+"179","Facundo Mallo",1
+"180","Facundo Mansilla Zahir",1
+"181","Facundo Mater",1
+"182","Facundo Mura",1
+"183","Facundo Perez",1
+"184","Facundo Pons",1
+"185","Facundo Roncaglia",1
+"186","Federico Fattori",1
+"187","Federico Gattoni",1
+"188","Federico Jourdan",1
+"189","Federico Rasmussen",1
+"190","Federico Redondo",1
+"191","Federico Vera",1
+"192","Felipe Aguilar",1
+"193","Felipe Pena Biafore",1
+"194","Felipe Sanchez",1
+"195","Fernando Alarcon",1
+"196","Fernando Martinez",1
+"197","Fernando Tobio",1
+"198","Fernando Torrent",1
+"199","Fernando Zuqui",1
+"200","Flabian Londono",1
+"201","Francesco Lo Celso",1
+"202","Francis Mac Allister",1
+"203","Francisco Agustin Gonzalez",1
+"204","Francisco Alvarez",1
+"205","Francisco Di Franco",1
+"206","Francisco Gerometta",1
+"207","Francisco Gonzalez Metilli",1
+"208","Francisco Ortega",1
+"209","Francisco Pizzini",1
+"210","Franco Alfonso",1
+"211","Franco Baldassarra",1
+"212","Franco Calderon",1
+"213","Franco Daniel Jara",1
+"214","Franco Diaz",1
+"215","Franco Frias",1
+"216","Franco Moyano",1
+"217","Franco Nicolas Tolosa",1
+"218","Franco Orozco",1
+"219","Franco Quinteros",1
+"220","Franco Sbutoni",1
+"221","Franco Soldano",1
+"222","Franco Torres",1
+"223","Franco Troyansky",1
+"224","Franco Vega",1
+"225","Franco Watson",1
+"226","Franco Zapiola",1
+"227","Frank Fabra",1
+"228","Gabriel Alanis",1
+"229","Gabriel Avalos",1
+"230","Gabriel Compagnucci",1
+"231","Gabriel Diaz",1
+"232","Gabriel Graciani",1
+"233","Gabriel Gudino",1
+"234","Gabriel Hauche",1
+"235","Gabriel Rojas",1
+"236","Gaston Americo Benavidez",1
+"237","Gaston Benedetti",1
+"238","Gaston Campi",1
+"239","Gaston Comas",1
+"240","Gaston Hernandez",1
+"241","Gaston Lodico",1
+"242","Gaston Sauro",1
+"243","Gaston Suso",1
+"244","Gaston Togni",1
+"245","Gaston Veron",1
+"246","Geronimo Rivera",1
+"247","Geronimo Tomasetti",1
+"248","Gian Nardelli",1
+"249","Gianluca Ferrari",1
+"250","Gianluca Prestianni",1
+"251","Gino Infantino",1
+"252","Giuliano Cerato",1
+"253","Gonzalo Abrego",1
+"254","Gonzalo Alvez",1
+"255","Gonzalo Asis",1
+"256","Gonzalo Bettini",1
+"257","Gonzalo Castellani",1
+"258","Gonzalo Flores",1
+"259","Gonzalo Goni",1
+"260","Gonzalo Lujan Melli",1
+"261","Gonzalo Maroni",1
+"262","Gonzalo Muscia",1
+"263","Gonzalo Piovi",1
+"264","Gonzalo Silva",1
+"265","Gonzalo Valdivia",1
+"266","Gregorio Rodriguez",1
+"267","Guido Carrillo",1
+"268","Guido Mainero",1
+"269","Guillermo Acosta",1
+"270","Guillermo Benitez",1
+"271","Guillermo Enrique",1
+"272","Guillermo Fernandez",1
+"273","Guillermo Luis Ortiz",1
+"274","Guillermo Pereira",1
+"275","Guillermo Soto",1
+"276","Gustavo Canto",1
+"277","Gustavo Velazquez",1
+"278","Harrinson Mancilla",1
+"279","Hector Fertoli",1
+"280","Hector Martinez",1
+"281","Hernan De La Fuente",1
+"282","Hernan Lopez",1
+"283","Horacio Tijanovich",1
+"284","Ibrahim Hesar",1
+"285","Ignacio Fernandez",1
+"286","Ignacio Gariglio",1
+"287","Ignacio Mendez",1
+"288","Ignacio Miramon",1
+"289","Ignacio Rodriguez",1
+"290","Ignacio Schor",1
+"291","Ignacio Vazquez",1
+"292","Imanol Machuca",1
+"293","Ismael Cortez",1
+"294","Ivan Gomez",1
+"295","Ivan Leguizamon",1
+"296","Ivan Ortigoza",1
+"297","Ivan Pillud",1
+"298","Ivan Ramirez",1
+"299","Ivan Rossi",1
+"300","Ivan Tapia",1
+"301","Ivo Mammini",1
+"302","Iván Marcone",1
+"303","Jalil Elias",1
+"304","Jaminton Campaz",1
+"305","Javier Cabrera",1
+"306","Javier Fabian Toledo",1
+"307","Javier Morales",1
+"308","Javier Ostachuk",1
+"309","Javier Vallejo",1
+"310","Jean Rosso",1
+"311","Jeremias Tica",1
+"312","Jeronimo Cacciabue",1
+"313","Jeronimo Domina",1
+"314","Jesus Soraire",1
+"315","Jherson Mosquera",1
+"316","Jhonatan Candia",1
+"317","Joaquin Gho",1
+"318","Joaquin Ibanez",1
+"319","Joaquin Laso",1
+"320","Joaquin Mosqueira",1
+"321","Joaquin Novillo",1
+"322","Joaquin Pereyra",1
+"323","Joaquin Pombo",1
+"324","Joaquin Susvielles",1
+"325","Joaquin Varela",1
+"326","Johan Carbonero",1
+"327","Jonas Acevedo",1
+"328","Jonatan Ramon Maidana",1
+"329","Jonathan Bay",1
+"330","Jonathan Dellarossa",1
+"331","Jonathan Galvan",1
+"332","Jonathan Gomez",1
+"333","Jonathan Menendez",1
+"334","Jorge Benitez",1
+"335","Jorge Figal",1
+"336","Jorge Recalde",1
+"337","Jorge Rodriguez",1
+"338","Jose Florentin",1
+"339","Jose Herrera",1
+"340","Jose Maria Canale",1
+"341","Jose Neris",1
+"342","Jose Paradela",1
+"343","Jose Romero",1
+"344","Jose Sosa",1
+"345","José Paolo Guerrero",1
+"346","José Salomon Rondon",1
+"347","José Sand",1
+"348","Juan Alvarez",1
+"349","Juan Andrada",1
+"350","Juan Andres Meli",1
+"351","Juan Barinaga",1
+"352","Juan Bisanz",1
+"353","Juan Caceres",1
+"354","Juan Cazares",1
+"355","Juan Cuesta",1
+"356","Juan Diaz",1
+"357","Juan Edgardo Ramirez",1
+"358","Juan Fernando Garro",1
+"359","Juan Franco",1
+"360","Juan Gauto",1
+"361","Juan Guasone",1
+"362","Juan Infante",1
+"363","Juan Kaprof",1
+"364","Juan Komar",1
+"365","Juan Manuel Garcia",1
+"366","Juan Manuel Insaurralde",1
+"367","Juan Miritello",1
+"368","Juan Nardoni",1
+"369","Juan Peinipil",1
+"370","Juan Portillo",1
+"371","Juan Rodriguez",1
+"372","Juan Sforza",1
+"373","Juan Sánchez Mino",1
+"374","Julian Alejo Lopez",1
+"375","Julian Aude",1
+"376","Julian Chicco",1
+"377","Julian Contrera",1
+"378","Julian Eseiza",1
+"379","Julian Fernandez",1
+"380","Julian Malatini",1
+"381","Julian Navas",1
+"382","Julian Rodrigo Fernandez",1
+"383","Julio Alberto Buffarini",1
+"384","Junior Marabel",1
+"385","Justo Giani",1

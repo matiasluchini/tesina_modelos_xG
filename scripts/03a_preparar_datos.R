@@ -1,14 +1,14 @@
+#---- Carga de librerias ----
 library(tidyverse)
 library(readr)
 library(readxl)
+library(here)
 
+#---- Carga de datos ----
 df <- list()
 
-# Ubicación de las carpetas que tienen todos los partidos:
-ubicacion <- "C:/Users/Usuario/Desktop/Fotmob/"
-ubicacion2 <- "C:/Users/Usuario/Desktop/Partidos/"
-
-# Las carpetas deben tener los siguientes nombres:
+# Los CSV de cada partido están en data/raw/fotmob/partidos/<torneo>/
+# (las carpetas deben llamarse igual que los elementos de "torneos")
 torneos <- c("liga2023", 
              "copa2023", 
              "copa2024", 
@@ -17,16 +17,17 @@ torneos <- c("liga2023",
 # Cantidad de partidos de cada torneo:
 duracion <- c(378, 204, 203, 378)
 
-for (i in length(torneos)) {
+for (i in seq_along(torneos)) {
   df[[i]] <- list()
 }
 
-# Los partidos se deben llamar torneoXXXX_partidoN donde "torneo" debe ser igual 
-# a copa/liga, XXXX corresponde al año y N al número de partido.
+# Los partidos se deben llamar fotmob_torneoXXXX_partidoN.csv
 for (i in torneos) {
   for (j in 1:duracion[which(torneos == i)]) {
     nombre_archivo <- paste0("fotmob_", i, "_partido", j, ".csv")
-    df[[which(torneos == i)]][[j]] <- read.csv(paste0(ubicacion, i, "/", nombre_archivo))
+    df[[which(torneos == i)]][[j]] <- read.csv(
+      here("data", "raw", "fotmob", "partidos", i, nombre_archivo)
+    )
   }
 }
 
@@ -68,10 +69,10 @@ for (i in torneos) {
 # Para llamar a cada dataframe usamos df[["torneoXXXX"]][[N]]
 
 # Guarda la lista en un archivo .RDS
-saveRDS(df, paste0(ubicacion, "fotmob_informacion_por_partido.rds"))
+saveRDS(df, here("data", "intermediate", "fotmob_informacion_por_partido.rds"))
 
 # Si quisiera cargarlo uso:
-# df <- readRDS(paste0(ubicacion, "fotmob_informacion_por_partido.rds"))
+# df <- readRDS(here("data", "intermediate", "fotmob_informacion_por_partido.rds"))
 
 # Construyo una funcion que una las sublistas en un solo df.
 todos_los_datos <- imap_dfr(df, function(sublista, nombre_torneo) {
@@ -83,6 +84,8 @@ todos_los_datos <- imap_dfr(df, function(sublista, nombre_torneo) {
       )
   })
 }) 
+
+#---- Correcciones a nombres de jugadores ----
 
 # Realizo algunas correciones a los nombres de algunos jugadores.
 # - Agustin Garcia Basso es el mismo jugador que Agustin Basso.
@@ -163,10 +166,10 @@ jugadores_fotmob_liga2024 <- todos_los_datos %>%
   arrange(playerName) 
 
 # Cargo la informacion descargada de fbref.
-info_fbref_copa2023 <- read_csv(paste0(ubicacion2, "info_jugadores_copa2023.csv"))
-info_fbref_liga2023 <- read.csv(paste0(ubicacion2, "info_jugadores_liga2023.csv"))
-info_fbref_copa2024 <- read.csv(paste0(ubicacion2, "info_jugadores_copa2024.csv"))
-info_fbref_liga2024 <- read.csv(paste0(ubicacion2, "info_jugadores_liga2024.csv"))
+info_fbref_copa2023 <- read_csv(here("data", "raw", "fbref", "info_jugadores_copa2023.csv"))
+info_fbref_liga2023 <- read_csv(here("data", "raw", "fbref", "info_jugadores_liga2023.csv"))
+info_fbref_copa2024 <- read_csv(here("data", "raw", "fbref", "info_jugadores_copa2024.csv"))
+info_fbref_liga2024 <- read_csv(here("data", "raw", "fbref", "info_jugadores_liga2024.csv"))
 
 # Filtro para quedarme solo con los nombres de los jugadores.
 jugadores_fbref_copa2023 <- info_fbref_copa2023 %>%  
@@ -296,234 +299,30 @@ jugadores_fbref_liga2024_2 <- jugadores_fbref_liga2024 %>%
   filter(str_detect(Player, "^[K-Zk-zÓÚóú]"))
 
 # Guardo como csv los archivos.
-write.csv(jugadores_fotmob_copa2023_1, file = "jugadores_fotmob_copa2023_1.csv")
-write.csv(jugadores_fotmob_copa2023_2, file = "jugadores_fotmob_copa2023_2.csv")
-write.csv(jugadores_fbref_copa2023_1, file = "jugadores_fbref_copa2023_1.csv")
-write.csv(jugadores_fbref_copa2023_2, file = "jugadores_fbref_copa2023_2.csv") 
+write.csv(jugadores_fotmob_copa2023_1, file = here("data", "intermediate", "jugadores_fotmob_copa2023_1.csv"))
+write.csv(jugadores_fotmob_copa2023_2, file = here("data", "intermediate", "jugadores_fotmob_copa2023_2.csv"))
+write.csv(jugadores_fbref_copa2023_1, file = here("data", "intermediate", "jugadores_fbref_copa2023_1.csv"))
+write.csv(jugadores_fbref_copa2023_2, file = here("data", "intermediate", "jugadores_fbref_copa2023_2.csv"))
 
-write.csv(jugadores_fotmob_liga2023_1, file = "jugadores_fotmob_liga2023_1.csv")
-write.csv(jugadores_fotmob_liga2023_2, file = "jugadores_fotmob_liga2023_2.csv")
-write.csv(jugadores_fbref_liga2023_1, file = "jugadores_fbref_liga2023_1.csv")
-write.csv(jugadores_fbref_liga2023_2, file = "jugadores_fbref_liga2023_2.csv")
+write.csv(jugadores_fotmob_liga2023_1, file = here("data", "intermediate", "jugadores_fotmob_liga2023_1.csv"))
+write.csv(jugadores_fotmob_liga2023_2, file = here("data", "intermediate", "jugadores_fotmob_liga2023_2.csv"))
+write.csv(jugadores_fbref_liga2023_1, file = here("data", "intermediate", "jugadores_fbref_liga2023_1.csv"))
+write.csv(jugadores_fbref_liga2023_2, file = here("data", "intermediate", "jugadores_fbref_liga2023_2.csv"))
 
-write.csv(jugadores_fotmob_copa2024_1, file = "jugadores_fotmob_copa2024_1.csv")
-write.csv(jugadores_fotmob_copa2024_2, file = "jugadores_fotmob_copa2024_2.csv")
-write.csv(jugadores_fbref_copa2024_1, file = "jugadores_fbref_copa2024_1.csv")
-write.csv(jugadores_fbref_copa2024_2, file = "jugadores_fbref_copa2024_2.csv")
+write.csv(jugadores_fotmob_copa2024_1, file = here("data", "intermediate", "jugadores_fotmob_copa2024_1.csv"))
+write.csv(jugadores_fotmob_copa2024_2, file = here("data", "intermediate", "jugadores_fotmob_copa2024_2.csv"))
+write.csv(jugadores_fbref_copa2024_1, file = here("data", "intermediate", "jugadores_fbref_copa2024_1.csv"))
+write.csv(jugadores_fbref_copa2024_2, file = here("data", "intermediate", "jugadores_fbref_copa2024_2.csv"))
 
-write.csv(jugadores_fotmob_liga2024_1, file = "jugadores_fotmob_liga2024_1.csv")
-write.csv(jugadores_fotmob_liga2024_2, file = "jugadores_fotmob_liga2024_2.csv")
-write.csv(jugadores_fbref_liga2024_1, file = "jugadores_fbref_liga2024_1.csv")
-write.csv(jugadores_fbref_liga2024_2, file = "jugadores_fbref_liga2024_2.csv")
+write.csv(jugadores_fotmob_liga2024_1, file = here("data", "intermediate", "jugadores_fotmob_liga2024_1.csv"))
+write.csv(jugadores_fotmob_liga2024_2, file = here("data", "intermediate", "jugadores_fotmob_liga2024_2.csv"))
+write.csv(jugadores_fbref_liga2024_1, file = here("data", "intermediate", "jugadores_fbref_liga2024_1.csv"))
+write.csv(jugadores_fbref_liga2024_2, file = here("data", "intermediate", "jugadores_fbref_liga2024_2.csv"))
 
-# Con esos archivos csv construyo el diccionario de nombres. 
-nombres_copa2023 <- read_excel("C:/Users/Usuario/Downloads/nombre_jugadores_fotmob_fbref.xlsx", 
-                               sheet = "copa2023")
-nombres_liga2023 <- read_excel("C:/Users/Usuario/Downloads/nombre_jugadores_fotmob_fbref.xlsx", 
-                               sheet = "liga2023")
-nombres_copa2024 <- read_excel("C:/Users/Usuario/Downloads/nombre_jugadores_fotmob_fbref.xlsx", 
-                               sheet = "copa2024")
-nombres_liga2024 <- read_excel("C:/Users/Usuario/Downloads/nombre_jugadores_fotmob_fbref.xlsx", 
-                               sheet = "liga2024")
-
-# De info_fbref_torneoXXXX me quedo solo con nombre y posicion en la que juegan.
-# Hago la asociacion de esos nombres a los que tienen en Fotmob usando nombres_torneoXXXX.
-jugadores_fbref_copa2023 <- jugadores_fbref_copa2023 %>% 
-  select(-stats_Squad) %>% 
-  filter(Player %in% nombres_copa2023$fbref) %>%
-  group_by(Player) %>%
-  slice_max(nchar(stats_Pos), with_ties = FALSE) %>%
-  ungroup()
-nombres_con_posicion_copa2023 <- nombres_copa2023 %>%
-  left_join(jugadores_fbref_copa2023, 
-            by = c("fbref" = "Player")) %>% 
-  select(-fbref)
-
-jugadores_fbref_liga2023 <- jugadores_fbref_liga2023 %>% 
-  select(-stats_Squad) %>% 
-  filter(Player %in% nombres_liga2023$fbref) %>%
-  group_by(Player) %>%
-  slice_max(nchar(stats_Pos), with_ties = FALSE) %>%
-  ungroup()
-nombres_con_posicion_liga2023 <- nombres_liga2023 %>%
-  left_join(jugadores_fbref_liga2023, 
-            by = c("fbref" = "Player")) %>% 
-  select(-fbref)
-
-jugadores_fbref_copa2024 <- jugadores_fbref_copa2024 %>% 
-  select(-stats_Squad) %>% 
-  filter(Player %in% nombres_copa2024$fbref) %>%
-  group_by(Player) %>%
-  slice_max(nchar(stats_Pos), with_ties = FALSE) %>%
-  ungroup()
-nombres_con_posicion_copa2024 <- nombres_copa2024 %>%
-  left_join(jugadores_fbref_copa2024, 
-            by = c("fbref" = "Player")) %>% 
-  select(-fbref)
-
-jugadores_fbref_liga2024 <- jugadores_fbref_liga2024 %>% 
-  select(-stats_Squad) %>% 
-  filter(Player %in% nombres_liga2024$fbref) %>%
-  group_by(Player) %>%
-  slice_max(nchar(stats_Pos), with_ties = FALSE) %>%
-  ungroup()
-nombres_con_posicion_liga2024 <- nombres_liga2024 %>%
-  left_join(jugadores_fbref_liga2024, 
-            by = c("fbref" = "Player")) %>% 
-  select(-fbref)
-
-# Agrego la columna de posicion a cada fila de todos_los_datos.
-tiros_copa2023 <- todos_los_datos %>% 
-  filter(torneo == "copa2023") %>% 
-  left_join(nombres_con_posicion_copa2023, 
-            by = c("playerName" = "Fotmob")) %>% 
-  mutate(stats_Pos = case_when(playerName == "Sebastian Boselli" ~ "DF", 
-                               playerName == "Claudio Jeremias Echeverri" ~ "MF,DF", 
-                               TRUE ~ stats_Pos))
-
-tiros_liga2023 <- todos_los_datos %>% 
-  filter(torneo == "liga2023") %>% 
-  left_join(nombres_con_posicion_liga2023, 
-            by = c("playerName" = "Fotmob")) %>% 
-  mutate(stats_Pos = case_when(playerName == "Jonathan Menendez" ~ "FW", 
-                               TRUE ~ stats_Pos))
-
-tiros_copa2024 <- todos_los_datos %>% 
-  filter(torneo == "copa2024") %>% 
-  left_join(nombres_con_posicion_copa2024, 
-            by = c("playerName" = "Fotmob"))
-
-tiros_liga2024 <- todos_los_datos %>% 
-  filter(torneo == "liga2024") %>% 
-  left_join(nombres_con_posicion_liga2024, 
-            by = c("playerName" = "Fotmob")) %>% 
-  mutate(stats_Pos = case_when(playerName == "Matias Alejandro Galarza" ~ "MF", 
-                               TRUE ~ stats_Pos))
-
-# Debo cambiar los ID de los equipos que juegan cada partido por su correpondiente 
-# nombre.
-id_equipos_copa2023 <- read_csv(paste0(ubicacion, "id_equipos_copa2023.csv"))
-id_equipos_copa2024 <- read_csv(paste0(ubicacion, "id_equipos_copa2024.csv"))
-id_equipos_liga2023 <- read_csv(paste0(ubicacion, "id_equipos_liga2023.csv"))
-id_equipos_liga2024 <- read_csv(paste0(ubicacion, "id_equipos_liga2024.csv"))
-
-# Primero construyo un data set que tenga el nombre de cada equipo asociado
-# a su ID.
-IDS <- bind_rows(id_equipos_copa2023, 
-                 id_equipos_copa2024, 
-                 id_equipos_liga2023, 
-                 id_equipos_liga2024) %>% 
-  count(name, 
-        id) %>% 
-  select(-n)
-
-# Realizo un left join para hacer la conversion.
-tiros_copa2023 <- tiros_copa2023 %>%
-  left_join(IDS, by = c("teamId" = "id")) %>%
-  rename(equipo = name)
-
-tiros_liga2023 <- tiros_liga2023 %>%
-  left_join(IDS, by = c("teamId" = "id")) %>%
-  rename(equipo = name)
-
-tiros_copa2024 <- tiros_copa2024 %>%
-  left_join(IDS, by = c("teamId" = "id")) %>%
-  rename(equipo = name)
-
-tiros_liga2024 <- tiros_liga2024 %>%
-  left_join(IDS, by = c("teamId" = "id")) %>%
-  rename(equipo = name)
-
-# Construyo una funcion que obtenga el angulo del tiro.
-calcular_angulo_tiro <- function(X, Y) {
-  
-  poste_superior <- c(105, 37.66)
-  poste_inferior <- c(105, 30.34)
-  
-  v1 <- c(poste_superior[1] - X, poste_superior[2] - Y)
-  v2 <- c(poste_inferior[1] - X, poste_inferior[2] - Y)
-  
-  prod_escalar <- sum(v1 * v2)
-  
-  norma_v1 <- sqrt(sum(v1^2))
-  norma_v2 <- sqrt(sum(v2^2))
-  
-  angulo_rad <- acos(prod_escalar / (norma_v1 * norma_v2))
-  
-  angulo_grados <- angulo_rad * (180 / pi)
-  
-  return(angulo_grados)
-}
-
-# Acomodo la base y agrego distancia y angulo de tiro.
-datos <- bind_rows(tiros_copa2023, 
-                  tiros_liga2023, 
-                  tiros_copa2024, 
-                  tiros_liga2024) %>% 
-  mutate(distancia = case_when(isOwnGoal == "False" ~ sqrt((105 - x)^2 + (34 - y)^2), 
-                              TRUE ~ NA), 
-         angulo = case_when(isOwnGoal == "False" ~ pmap_dbl(list(x, y), calcular_angulo_tiro),
-                            TRUE ~ NA), 
-         fue_al_arco = case_when(isOnTarget == "False" ~ 0,
-                                 TRUE ~ 1), 
-         fue_bloqueado = case_when(isBlocked == "False" ~ 0, 
-                                   TRUE ~ 1), 
-         parte_del_cuerpo = case_when(shotType == "Header" ~ "Cabeza",
-                                      shotType == "OtherBodyParts" ~ "Otro",
-                                      shotType == "LeftFoot" ~ "Zurda",
-                                      shotType == "RightFoot" ~ "Derecha"), 
-         situacion = case_when(situation == "FastBreak" ~ "Contragolpe",
-                               situation == "FreeKick" ~ "TiroLibre",
-                               situation == "FromCorner" ~ "Corner",
-                               situation == "IndividualPlay" ~ "JugadaIndividual",
-                               situation == "Penalty" ~ "Penal",
-                               situation == "RegularPlay" ~ "Jugada",
-                               situation == "SetPiece" ~ "SetPiece",
-                               situation == "ThrowInSetPiece" ~ "ThrowInSetPiece"), 
-         resultado = case_when(eventType == "AttemptSaved" ~ "Atajado",
-                               eventType == "Goal" ~ "Gol",
-                               eventType == "Miss" ~ "Errado",
-                               eventType == "Post" ~ "Palo"), 
-         gol = case_when(resultado == "Gol" ~ 1, 
-                         TRUE ~ 0), 
-         fue_autogol = case_when(isOwnGoal == "False" ~ 0, 
-                                 TRUE ~ 1)) %>% 
-  separate(stats_Pos, 
-           into = c("posicion", "posicion_alternativa"), 
-           sep = ",", 
-           fill = "right", 
-           extra = "merge") %>% 
-  select(torneo, 
-         partido, 
-         equipo,
-         jugador = playerName, 
-         id_jugador = playerId,
-         posicion, 
-         posicion_alternativa,
-         minuto = min, 
-         minuto_agregado = minAdded,
-         x, 
-         y, 
-         distancia, 
-         angulo, 
-         situacion,
-         parte_del_cuerpo,
-         fue_bloqueado, 
-         x_bloqueado = blockedX, 
-         y_bloqueado = blockedY, 
-         fue_al_arco, 
-         y_fondo = goalCrossedY, 
-         z_fondo = goalCrossedZ, 
-         resultado,
-         gol,
-         fue_autogol, 
-         xG = expectedGoals, 
-         xGoT = expectedGoalsOnTarget)
-
-# Convierto en archivo csv.
-write.csv(datos, file = "disparos_2023_2024.csv")
-
-
-
-
-
+# Objetos que necesita el script 03b:
+saveRDS(todos_los_datos, here("data", "intermediate", "todos_los_datos.rds"))
+saveRDS(list(copa2023 = jugadores_fbref_copa2023,
+             liga2023 = jugadores_fbref_liga2023,
+             copa2024 = jugadores_fbref_copa2024,
+             liga2024 = jugadores_fbref_liga2024),
+        here("data", "intermediate", "jugadores_fbref.rds"))
