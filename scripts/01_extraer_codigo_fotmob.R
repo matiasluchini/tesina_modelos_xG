@@ -1,10 +1,11 @@
-#---- CARGA DE LIBRERIAS ----
+#---- Carga de librerias ----
 library(tidyverse)
 library(readxl)
 library(openxlsx)
+library(here)
 
-#---- CARGA DE DATOS ----
-ubicacion <- "C:/Users/Usuario/Downloads/tabla_para_extraer_codigos_fotmob.xlsx"
+#---- Carga de datos ----
+ubicacion <- here("data", "manual", "tabla_para_extraer_codigos_fotmob.xlsx")
 
 torneos <- c("copa2021", 
              "liga2021", 
@@ -29,7 +30,7 @@ lista_fixtures <- list(fixture_copa2021,
                        fixture_liga2023, 
                        fixture_liga2024)
 
-#---- LIMPIEZA DE LA BASE ----
+#---- Limpieza de la base ----
 
 # Creo una funcion qu extrae la cadena de texto que se encuentra entre # y ).
 extraer_textos <- function(df) {
@@ -77,7 +78,7 @@ df_liga2024 <- data.frame(
   codigos = vector_fixture8
 )
 
-#---- CONVERSION A ARCHIVO EXCEL ----
+#---- Conversion a archivo .xlsx ----
 write.xlsx(list("copa2021" = df_copa2021, 
                 "liga2021" = df_liga2021,
                 "copa2022" = df_copa2022, 
@@ -85,12 +86,5 @@ write.xlsx(list("copa2021" = df_copa2021,
                 "liga2023" = df_liga2023,
                 "copa2023" = df_copa2023, 
                 "copa2024" = df_copa2024, 
-                "liga2024" = df_liga2024), file = "codigos_fotmob.xlsx")
-
-
-
-
-
-
-
-
+                "liga2024" = df_liga2024), 
+           file = here("data", "manual", "codigos_fotmob.xlsx"))
