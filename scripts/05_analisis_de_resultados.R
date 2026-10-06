@@ -27,6 +27,8 @@ tema_mio <- function() {
 
 W <- 6
 H <- 4
+ruta_figuras <- here("output", "figuras")
+ruta_muestras <- here("data", "processed", "muestras_modelos")
 
 cols <- c("#9BBB59", "#8064A2", "#F3A447","#4BACC6")
 
@@ -363,7 +365,7 @@ rm(list = c("max_count", "p1", "p2", "p3", "p4"))
 
 # Primero para el modelo 1:
 
-nc_1 <- nc_open("Datos/ModeloColab/muestras_modelo_1_chequear.nc")
+nc_1 <- nc_open(file.path(ruta_muestras, "muestras_modelo_1.nc"))
 
 alpha_1 <- ncvar_get(nc_1, "alpha")
 beta_angulo_1 <- ncvar_get(nc_1, "beta_angulo")
@@ -398,9 +400,8 @@ rm(list = c("nc_1",
             "rhat_m1",
             "ess_bulk_m1"))
 
-# Para el modelo 2: 
-
-nc_2 <- nc_open("Datos/ModeloColab/muestras_modelo_2_chequear.nc")
+# Para el modelo 2:
+nc_2 <- nc_open(file.path(ruta_muestras, "muestras_modelo_2.nc"))
 
 alpha_2 <- ncvar_get(nc_2, "alpha")
 beta_distancia_2 <- ncvar_get(nc_2, "beta_distancia")
@@ -446,9 +447,8 @@ rm(list = c("nc_2",
             "rhat_m2",
             "ess_bulk_m2"))
 
-# Para el modelo 3: 
-
-nc_3 <- nc_open("Datos/ModeloColab/muestras_modelo_3_chequear.nc")
+# Para el modelo 3:
+nc_3 <- nc_open(file.path(ruta_muestras, "muestras_modelo_3.nc"))
 
 alpha_3 <- ncvar_get(nc_3, "alpha")
 beta_distancia_3 <- ncvar_get(nc_3, "beta_distancia")
@@ -530,6 +530,10 @@ resumen_modelo3 <- muestras_modelo3 %>%
             q05 = round(quantile(valor, 0.05), 3),
             q95 = round(quantile(valor, 0.95), 3),
             .groups = "drop")
+
+rm(resumen_modelo1, 
+   resumen_modelo2, 
+   resumen_modelo3)
 
 #---- Densidades a posteriori ----
 interceptos_modelo1 <- muestras_modelo1 %>%
@@ -796,37 +800,37 @@ variabilidad_modelo3 <- muestras_modelo3 %>%
   labs(x = expression(sigma[u]),
        y = NULL)
 
-ggsave("C:/Users/Usuario/Desktop/Tesis/Imagenes y Figuras/Nuevos/interceptos_modelo1.pdf", 
+ggsave(file.path(ruta_figuras, "interceptos_modelo1.pdf"), 
        plot = interceptos_modelo1, 
        width = W, 
        height = H, 
        units = "in")
-ggsave("C:/Users/Usuario/Desktop/Tesis/Imagenes y Figuras/Nuevos/explicativas_modelo1.pdf", 
+ggsave(file.path(ruta_figuras, "explicativas_modelo1.pdf"), 
        plot = explicativas_modelo1, 
        width = W, 
        height = H, 
        units = "in")
-ggsave("C:/Users/Usuario/Desktop/Tesis/Imagenes y Figuras/Nuevos/interceptos_modelo2.pdf", 
+ggsave(file.path(ruta_figuras, "interceptos_modelo2.pdf"), 
        plot = interceptos_modelo2, 
        width = W, 
        height = H, 
        units = "in")
-ggsave("C:/Users/Usuario/Desktop/Tesis/Imagenes y Figuras/Nuevos/explicativas_modelo2.pdf", 
+ggsave(file.path(ruta_figuras, "explicativas_modelo2.pdf"), 
        plot = explicativas_modelo2, 
        width = W, 
        height = H, 
        units = "in")
-ggsave("C:/Users/Usuario/Desktop/Tesis/Imagenes y Figuras/Nuevos/interceptos_modelo3.pdf", 
+ggsave(file.path(ruta_figuras, "interceptos_modelo3.pdf"), 
        plot = interceptos_modelo3, 
        width = W, 
        height = H, 
        units = "in")
-ggsave("C:/Users/Usuario/Desktop/Tesis/Imagenes y Figuras/Nuevos/explicativas_modelo3.pdf", 
+ggsave(file.path(ruta_figuras, "explicativas_modelo3.pdf"), 
        plot = explicativas_modelo3, 
        width = W, 
        height = H, 
        units = "in")
-ggsave("C:/Users/Usuario/Desktop/Tesis/Imagenes y Figuras/Nuevos/variabilidad_modelo3.pdf", 
+ggsave(file.path(ruta_figuras, "variabilidad_modelo3.pdf"), 
        plot = variabilidad_modelo3, 
        width = W, 
        height = H, 
@@ -938,7 +942,7 @@ explicativas_modelo1 <- muestras_modelo1 %>%
 combinado <- interceptos_modelo1 / explicativas_modelo1 + 
   plot_layout(heights = c(1, 2))
 
-ggsave("C:/Users/Usuario/Desktop/Tesis/Imagenes y Figuras/Nuevos/Combinados/parametros_mod1.pdf",
+ggsave(file.path(ruta_figuras, "parametros_mod1.pdf"),
        plot = combinado,
        width = W,
        height = H*1.5,
@@ -1063,7 +1067,7 @@ explicativas_modelo2 <- muestras_modelo2 %>%
 combinado <- interceptos_modelo2 / explicativas_modelo2 + 
   plot_layout(heights = c(4, 3))
 
-ggsave("C:/Users/Usuario/Desktop/Tesis/Imagenes y Figuras/Nuevos/Combinados/parametros_mod2.pdf",
+ggsave(file.path(ruta_figuras, "parametros_mod2.pdf"),
        plot = combinado,
        width = W,
        height = H*1.5,
@@ -1187,7 +1191,7 @@ explicativas_modelo3 <- muestras_modelo3 %>%
 combinado <- interceptos_modelo3 / explicativas_modelo3 + 
   plot_layout(heights = c(4, 3))
 
-ggsave("C:/Users/Usuario/Desktop/Tesis/Imagenes y Figuras/Nuevos/Combinados/parametros_mod3.pdf",
+ggsave(file.path(ruta_figuras, "parametros_mod3.pdf"),
        plot = combinado,
        width = W,
        height = H*1.5,
@@ -1208,8 +1212,8 @@ rm(step,
 
 #---- Intervalos de credibilidad para el parametro jugador ----
 
-# Primero cargo las muestras de Colab de 40 jugadores.
-intervalitos_por_jugador <- read_csv("Datos/ModeloColab/muestras_40_jugadores_equiespaciados.csv") %>%
+# Primero cargo las muestras de Python de 40 jugadores.
+intervalitos_por_jugador <- read_csv(file.path(ruta_muestras, "muestras_40_jugadores_equiespaciados.csv")) %>%
   group_by(jugador) %>%
   summarise(media = mean(gamma),
             li = quantile(gamma, 0.05),
@@ -1239,7 +1243,7 @@ intervalitos_por_jugador <- read_csv("Datos/ModeloColab/muestras_40_jugadores_eq
   labs(x = expression(italic(u)),
        y = "Jugador seleccionado")
 
-ggsave("C:/Users/Usuario/Desktop/Tesis/Imagenes y Figuras/Nuevos/intervalitos_por_jugador.pdf",
+ggsave(file.path(ruta_figuras, "intervalitos_por_jugador.pdf"),
        plot = intervalitos_por_jugador,
        width = W ,
        height = H,
@@ -1328,9 +1332,9 @@ rm(list = c("df_bins",
             "ang_est"))
 
 #---- Traigo las muestras de Python de los pi de este diparo tipico ----
-muestras_tipico_mod1 <- read_csv("Datos/ModeloColab/muestras_tipico_mod1.csv")
-muestras_tipico_mod2 <- read_csv("Datos/ModeloColab/muestras_tipico_mod2.csv")
-muestras_tipico_mod3 <- read_csv("Datos/ModeloColab/muestras_tipico_mod3.gz")
+muestras_tipico_mod1 <- read_csv(file.path(ruta_muestras, "muestras_tipico_mod1.csv"))
+muestras_tipico_mod2 <- read_csv(file.path(ruta_muestras, "muestras_tipico_mod2.csv"))
+muestras_tipico_mod3 <- read_csv(file.path(ruta_muestras, "muestras_tipico_mod3.gz"))
 
 #---- Posteriors de disparo tipico por modelo ----
 tiro_promedio_mod1 <- muestras_tipico_mod1 %>%
@@ -1458,17 +1462,17 @@ tiro_promedio_mod3 <- muestras_tipico_mod3 %>%
   labs(x = "Probabilidad de gol",
        y = "Jugador seleccionado")
 
-ggsave("C:/Users/Usuario/Desktop/Tesis/Imagenes y Figuras/Nuevos/tiro_promedio_mod1.pdf", 
+ggsave(file.path(ruta_figuras, "tiro_promedio_mod1.pdf"), 
        plot = tiro_promedio_mod1, 
        width = W, 
        height = H-1, 
        units = "in")
-ggsave("C:/Users/Usuario/Desktop/Tesis/Imagenes y Figuras/Nuevos/tiro_promedio_mod2.pdf",
+ggsave(file.path(ruta_figuras, "tiro_promedio_mod2.pdf"),
        plot = tiro_promedio_mod2,
        width = W,
        height = H,
        units = "in")
-ggsave("C:/Users/Usuario/Desktop/Tesis/Imagenes y Figuras/Nuevos/tiro_promedio_mod3.pdf",
+ggsave(file.path(ruta_figuras, "tiro_promedio_mod3.pdf"),
        plot = tiro_promedio_mod3,
        width = W,
        height = H,
@@ -1560,9 +1564,9 @@ rm(list = c("df_bins",
             "ang_est"))
 
 #---- Traigo las muestras de Python de los pi de este diparo no tan tipico ----
-muestras_no_tan_tipico_mod1 <- read_csv("Datos/ModeloColab/muestras_no_tan_tipico_mod1.csv")
-muestras_no_tan_tipico_mod2 <- read_csv("Datos/ModeloColab/muestras_no_tan_tipico_mod2.csv")
-muestras_no_tan_tipico_mod3 <- read_csv("Datos/ModeloColab/muestras_no_tan_tipico_mod3.gz")
+muestras_no_tan_tipico_mod1 <- read_csv(file.path(ruta_muestras, "muestras_no_tan_tipico_mod1.csv"))
+muestras_no_tan_tipico_mod2 <- read_csv(file.path(ruta_muestras, "muestras_no_tan_tipico_mod2.csv"))
+muestras_no_tan_tipico_mod3 <- read_csv(file.path(ruta_muestras, "muestras_no_tan_tipico_mod3.gz"))
 
 #---- Posteriors de disparo no tan tipico por modelo ----
 tiro_no_tan_tipico_mod1 <- muestras_no_tan_tipico_mod1 %>%
@@ -1693,17 +1697,17 @@ tiro_no_tan_tipico_mod3 <- muestras_no_tan_tipico_mod3 %>%
   labs(x = "Probabilidad de gol",
        y = "Jugador seleccionado")
 
-ggsave("C:/Users/Usuario/Desktop/Tesis/Imagenes y Figuras/Nuevos/tiro_no_tan_tipico_mod1.pdf", 
+ggsave(file.path(ruta_figuras, "tiro_no_tan_tipico_mod1.pdf"), 
        plot = tiro_no_tan_tipico_mod1, 
        width = W, 
        height = H-1, 
        units = "in")
-ggsave("C:/Users/Usuario/Desktop/Tesis/Imagenes y Figuras/Nuevos/tiro_no_tan_tipico_mod2.pdf",
+ggsave(file.path(ruta_figuras, "tiro_no_tan_tipico_mod2.pdf"),
        plot = tiro_no_tan_tipico_mod2,
        width = W,
        height = H,
        units = "in")
-ggsave("C:/Users/Usuario/Desktop/Tesis/Imagenes y Figuras/Nuevos/tiro_no_tan_tipico_mod3.pdf",
+ggsave(file.path(ruta_figuras, "tiro_no_tan_tipico_mod3.pdf"),
        plot = tiro_no_tan_tipico_mod3,
        width = W,
        height = H,
@@ -1717,7 +1721,7 @@ rm(tiro_no_tan_tipico_mod1,
    muestras_no_tan_tipico_mod3)
 
 #---- Traigo las muestras de 6 jugadores especificos ----
-muestras_gamma_6_jugadores_especificos <- read_csv("Datos/ModeloColab/muestras_6_jugadores_especificos.csv")
+muestras_gamma_6_jugadores_especificos <- read_csv(file.path(ruta_muestras, "muestras_6_jugadores_especificos.csv"))
 
 #---- Obtener probabilidad de gol para valores de las explicativas ----
 
@@ -1829,7 +1833,7 @@ disparo_aleman <- bind_rows(df1, df2, df4) %>%
                                          color = "black"),
         legend.box.background = element_rect(color = "black")) 
 
-ggsave("C:/Users/Usuario/Desktop/Tesis/Imagenes y Figuras/Nuevos/disparo_aleman.pdf",
+ggsave(file.path(ruta_figuras, "disparo_aleman.pdf"),
        plot = disparo_aleman,
        width = W ,
        height = H,
@@ -1942,7 +1946,7 @@ disparo_maravilla <- bind_rows(df1, df2, df3) %>%
   labs(x = "Probabilidad de gol",
        y = NULL)
 
-ggsave("C:/Users/Usuario/Desktop/Tesis/Imagenes y Figuras/Nuevos/disparo_maravilla.pdf",
+ggsave(file.path(ruta_figuras, "disparo_maravilla.pdf"),
        plot = disparo_maravilla,
        width = W ,
        height = H,
@@ -2055,7 +2059,7 @@ disparo_merentiel <- bind_rows(df1, df2, df4) %>%
   labs(x = "Probabilidad de gol",
        y = NULL)
 
-ggsave("C:/Users/Usuario/Desktop/Tesis/Imagenes y Figuras/Nuevos/disparo_merentiel.pdf",
+ggsave(file.path(ruta_figuras, "disparo_merentiel.pdf"),
        plot = disparo_merentiel,
        width = W ,
        height = H,
@@ -2076,7 +2080,7 @@ rm(list = c("df1",
             "disparo_merentiel"))
 
 #---- Cargo datos de partido nuevo (Racing vs Union) ----
-disparos_racing_union <- read_csv("Datos/Extras/disparos_nuevos_racing_union.csv") %>% 
+disparos_racing_union <- read_csv(here("data", "extras", "disparos_nuevos_racing_union.csv")) %>% 
   mutate(id_disparo = row_number())
 
 #---- xG para un disparo nuevo de Maravilla ----
@@ -2223,7 +2227,7 @@ disparo_nuevo_maravilla <- bind_rows(pis_nuevo_mod1 %>% mutate(modelo = "Modelo 
   labs(x = "Probabilidad de gol",
        y = NULL)
 
-ggsave("C:/Users/Usuario/Desktop/Tesis/Imagenes y Figuras/Nuevos/disparo_nuevo_maravilla.pdf",
+ggsave(file.path(ruta_figuras, "disparo_nuevo_maravilla.pdf"),
        plot = disparo_nuevo_maravilla,
        width = W,
        height = H,
@@ -2237,12 +2241,13 @@ rm(list = c("dist_nuevo_est",
             "pis_nuevo_mod3", 
             "gamma_maravilla", 
             "muestras_modelo3_maravilla", 
-            "disparo_nuevo_maravilla"))
+            "disparo_nuevo_maravilla", 
+            "muestras_gamma_6_jugadores_especificos"))
 
 #---- Base para un disparo nuevo ----
 
 # Cargo los datos:
-nc_3 <- nc_open("Datos/ModeloColab/muestras_modelo_3_chequear.nc")
+nc_3 <- nc_open(file.path(ruta_muestras, "muestras_modelo_3.nc"))
 
 # ¿Tengo todo lo que necesito?
 names(nc_3$var)
@@ -2512,7 +2517,7 @@ disparo_nuevo_jugador <- bind_rows(pis_nuevo_mod1 %>% mutate(modelo = "Modelo 1"
   labs(x = "Probabilidad de gol",
        y = NULL)
 
-ggsave("C:/Users/Usuario/Desktop/Tesis/Imagenes y Figuras/Nuevos/disparo_jugador_nuevo.pdf",
+ggsave(file.path(ruta_figuras, "disparo_jugador_nuevo.pdf"),
        plot = disparo_nuevo_jugador,
        width = W,
        height = H,
@@ -2528,34 +2533,38 @@ rm(list = c("dist_nuevo_est",
             "posteriores", 
             "disparos_racing_union"))
 
+rm(muestras_modelo1, 
+   muestras_modelo2,
+   muestras_modelo3)
+
 #---- Traigo de Python las muestras para graficos de acumulado jugador ----
-pp1_goles_maravilla <- read_csv("Datos/ModeloColab/pp1_goles_maravilla.csv") %>% 
+pp1_goles_maravilla <- read_csv(file.path(ruta_muestras, "pp1_goles_maravilla.csv")) %>% 
   mutate(pp_goles = pp1_goles_maravilla) %>% 
   pull(pp_goles)
-pp1_goles_merentiel <- read_csv("Datos/ModeloColab/pp1_goles_merentiel.csv") %>% 
+pp1_goles_merentiel <- read_csv(file.path(ruta_muestras, "pp1_goles_merentiel.csv")) %>% 
   mutate(pp_goles = pp1_goles_merentiel) %>% 
   pull(pp_goles)
-pp1_goles_dominguez <- read_csv("Datos/ModeloColab/pp1_goles_dominguez.csv") %>% 
+pp1_goles_dominguez <- read_csv(file.path(ruta_muestras, "pp1_goles_dominguez.csv")) %>% 
   mutate(pp_goles = pp1_goles_dominguez) %>% 
   pull(pp_goles)
 
-pp2_goles_maravilla <- read_csv("Datos/ModeloColab/pp2_goles_maravilla.csv") %>% 
+pp2_goles_maravilla <- read_csv(file.path(ruta_muestras, "pp2_goles_maravilla.csv")) %>% 
   mutate(pp_goles = pp2_goles_maravilla) %>% 
   pull(pp_goles)
-pp2_goles_merentiel <- read_csv("Datos/ModeloColab/pp2_goles_merentiel.csv") %>% 
+pp2_goles_merentiel <- read_csv(file.path(ruta_muestras, "pp2_goles_merentiel.csv")) %>% 
   mutate(pp_goles = pp2_goles_merentiel) %>% 
   pull(pp_goles)
-pp2_goles_dominguez <- read_csv("Datos/ModeloColab/pp2_goles_dominguez.csv") %>% 
+pp2_goles_dominguez <- read_csv(file.path(ruta_muestras, "pp2_goles_dominguez.csv")) %>% 
   mutate(pp_goles = pp2_goles_dominguez) %>% 
   pull(pp_goles)
 
-pp3_goles_maravilla <- read_csv("Datos/ModeloColab/pp3_goles_maravilla.csv") %>% 
+pp3_goles_maravilla <- read_csv(file.path(ruta_muestras, "pp3_goles_maravilla.csv")) %>% 
   mutate(pp_goles = pp3_goles_maravilla) %>% 
   pull(pp_goles)
-pp3_goles_merentiel <- read_csv("Datos/ModeloColab/pp3_goles_merentiel.csv") %>% 
+pp3_goles_merentiel <- read_csv(file.path(ruta_muestras, "pp3_goles_merentiel.csv")) %>% 
   mutate(pp_goles = pp3_goles_merentiel) %>% 
   pull(pp_goles)
-pp3_goles_dominguez <- read_csv("Datos/ModeloColab/pp3_goles_dominguez.csv") %>% 
+pp3_goles_dominguez <- read_csv(file.path(ruta_muestras, "pp3_goles_dominguez.csv")) %>% 
   mutate(pp_goles = pp3_goles_dominguez) %>% 
   pull(pp_goles)
 
@@ -2825,9 +2834,9 @@ acumulado_dominguez <- tibble(pp_goles = c(pp1_goles_dominguez,
 
 # Para todos juntos: 
 
-goles_totales_modelo1 <- read.csv("Datos/ModeloColab/pp1_goles_totales.csv")
-goles_totales_modelo2 <- read.csv("Datos/ModeloColab/pp2_goles_totales.csv")
-goles_totales_modelo3 <- read.csv("Datos/ModeloColab/pp3_goles_totales.csv")
+goles_totales_modelo1 <- read.csv(file.path(ruta_muestras, "pp1_goles_totales.csv"))
+goles_totales_modelo2 <- read.csv(file.path(ruta_muestras, "pp2_goles_totales.csv"))
+goles_totales_modelo3 <- read.csv(file.path(ruta_muestras, "pp3_goles_totales.csv"))
 
 real <- sum(datos$gol)
 
@@ -2920,22 +2929,22 @@ acumulado <- tibble(pp_goles = c(goles_totales_modelo1$pp_goles,
         legend.key.width = unit(0.7, "cm"),
         legend.key.height = unit(0.5, "cm"))
 
-ggsave("C:/Users/Usuario/Desktop/Tesis/Imagenes y Figuras/Nuevos/acumulado_maravilla.pdf",
+ggsave(file.path(ruta_figuras, "acumulado_maravilla.pdf"),
        plot = acumulado_maravilla,
        width = W,
        height = H,
        units = "in")
-ggsave("C:/Users/Usuario/Desktop/Tesis/Imagenes y Figuras/Nuevos/acumulado_merentiel.pdf",
+ggsave(file.path(ruta_figuras, "acumulado_merentiel.pdf"),
        plot = acumulado_merentiel,
        width = W ,
        height = H,
        units = "in")
-ggsave("C:/Users/Usuario/Desktop/Tesis/Imagenes y Figuras/Nuevos/acumulado_dominguez.pdf",
+ggsave(file.path(ruta_figuras, "acumulado_dominguez.pdf"),
        plot = acumulado_dominguez,
        width = W,
        height = H,
        units = "in")
-ggsave("C:/Users/Usuario/Desktop/Tesis/Imagenes y Figuras/Nuevos/pp_goles_totales.pdf",
+ggsave(file.path(ruta_figuras, "pp_goles_totales.pdf"),
        plot = acumulado,
        width = W,
        height = H,
@@ -3015,7 +3024,7 @@ make_trace <- function(df, label, show_x = FALSE) {
 
 #---- Traceplots del Modelo 1 ----
 
-nc_1 <- nc_open("Datos/ModeloColab/muestras_modelo_1_chequear.nc")
+nc_1 <- nc_open(file.path(ruta_muestras, "muestras_modelo_1.nc"))
 
 alpha_1 <- ncvar_get(nc_1, "alpha")
 beta_angulo_1 <- ncvar_get(nc_1, "beta_angulo")
@@ -3053,7 +3062,7 @@ p_m1_beta3 <- make_trace(df_m1_beta3, expression(beta[3]), show_x = TRUE)
 
 traceplots_m1 <- p_m1_alpha / p_m1_beta1 / p_m1_beta2 / p_m1_beta3
 
-ggsave("C:/Users/Usuario/Desktop/Tesis/Imagenes y Figuras/Nuevos/Combinados/traceplots_m1.pdf",
+ggsave(file.path(ruta_figuras, "traceplots_m1.pdf"),
        plot = traceplots_m1,
        width = W,
        height = H,
@@ -3071,7 +3080,7 @@ rm(df_m1_alpha,
 
 #---- Traceplots del Modelo 2 ----
 
-nc_2 <- nc_open("Datos/ModeloColab/muestras_modelo_2_chequear.nc")
+nc_2 <- nc_open(file.path(ruta_muestras, "muestras_modelo_2.nc"))
 
 alpha_2 <- ncvar_get(nc_2, "alpha")
 beta_distancia_2 <- ncvar_get(nc_2, "beta_distancia")
@@ -3157,7 +3166,7 @@ traceplots_m2_alphas <- traceplots_m2_alphas +
 combinado <- traceplots_m2_alphas / traceplots_m2_betas +
   plot_layout(heights = c(1, 1, 1, 1, 3.5))
 
-ggsave("C:/Users/Usuario/Desktop/Tesis/Imagenes y Figuras/Nuevos/Combinados/traceplots_m2.pdf",
+ggsave(file.path(ruta_figuras, "traceplots_m2.pdf"),
        plot = combinado,
        width = W,
        height = H+3,
@@ -3178,7 +3187,7 @@ rm(df_m2_beta1,
 
 #---- Traceplots del Modelo 3 ----
 
-nc_3 <- nc_open("Datos/ModeloColab/muestras_modelo_3_chequear.nc")
+nc_3 <- nc_open(file.path(ruta_muestras, "muestras_modelo_3.nc"))
 
 alpha_3 <- ncvar_get(nc_3, "alpha")
 beta_distancia_3 <- ncvar_get(nc_3, "beta_distancia")
@@ -3215,7 +3224,7 @@ df_m3_beta3 <- to_df_mat(draws_m3$beta_interaccion, "beta_interaccion")
 df_m3_sigma <- to_df_mat(draws_m3$sigma_sq_gamma, "sigma_sq_gamma")
 
 orden_posiciones_3 <- c("DF", "MF_no_ofen", "MF_ofen", "FW")
-posiciones_3       <- posiciones_3[match(orden_posiciones_3, posiciones_3)]
+posiciones_3 <- posiciones_3[match(orden_posiciones_3, posiciones_3)]
 
 df_m3_alphas <- lapply(seq_along(posiciones_3), function(k) {
   to_df_mat(draws_m3[[paste0("alpha_", posiciones_3[k])]], paste0("alpha_", k))
@@ -3275,7 +3284,7 @@ traceplots_m3_alphas <- traceplots_m3_alphas +
 combinado <- traceplots_m3_alphas / traceplots_m3_betas +
   plot_layout(heights = c(1, 1, 1, 1, 4.5))
 
-ggsave("C:/Users/Usuario/Desktop/Tesis/Imagenes y Figuras/Nuevos/Combinados/traceplots_m3.pdf",
+ggsave(file.path(ruta_figuras, "traceplots_m3.pdf"),
        plot = combinado,
        width = W,
        height = H + 4,
@@ -3294,7 +3303,12 @@ rm(df_m3_beta1,
    traceplots_m3_betas, 
    traceplots_m3_alphas,
    posiciones_3, 
-   nombres_posiciones)
+   nombres_posiciones, 
+   orden_posiciones, 
+   combinado)
+
+rm(make_trace, 
+   to_df_mat)
 
 #---- Construyo la base para Calibration Plot y Metricas ----
 
@@ -3304,17 +3318,17 @@ rm(df_m3_beta1,
 # - Una columna con el resultado del disparo. 
 # - Tres columnas (una por modelo) con el xG_medio para ese disparo. 
 
-df_con_cobertura_xG_mod1 <- read.csv("Datos/ModeloColab/df_con_cobertura_xG_mod1.csv")  %>% 
+df_con_cobertura_xG_mod1 <- read.csv(file.path(ruta_muestras, "df_con_cobertura_xG_mod1.csv"))  %>% 
   rename(xG_modelo1 = xG_media_posterior) %>% 
   select(disparo = Unnamed..0, 
          xG_modelo1)
 
-df_con_cobertura_xG_mod2 <- read.csv("Datos/ModeloColab/df_con_cobertura_xG_mod2.csv") %>% 
+df_con_cobertura_xG_mod2 <- read.csv(file.path(ruta_muestras, "df_con_cobertura_xG_mod2.csv")) %>% 
   rename(xG_modelo2 = xG_media_posterior) %>% 
   select(disparo = Unnamed..0, 
          xG_modelo2)
 
-df_con_cobertura_xG_mod3 <- read.csv("Datos/ModeloColab/df_con_cobertura_xG_mod3.csv") %>% 
+df_con_cobertura_xG_mod3 <- read.csv(file.path(ruta_muestras, "df_con_cobertura_xG_mod3.csv")) %>% 
   rename(xG_modelo3 = xG_media_posterior) %>% 
   select(disparo = Unnamed..0, 
          xG_modelo3)
@@ -3329,11 +3343,6 @@ df <- df_con_cobertura_xG_mod1 %>%
   inner_join(df_con_cobertura_xG_mod2, by = "disparo") %>%
   inner_join(df_con_cobertura_xG_mod3, by = "disparo") %>%
   inner_join(reales, by = "disparo")
-
-colores <- c("Modelo 1" = "#F3A447",
-             "Modelo 2" = "#F3A447",
-             "Modelo 3" = "#F3A447",
-             "Stats Perform" = "#4BACC6")
 
 rm(df_con_cobertura_xG_mod1,
    df_con_cobertura_xG_mod2,
@@ -3422,7 +3431,7 @@ calibracion <- bind_rows(
         axis.text = element_text(size = 8),
         axis.title = element_text(size = 12))
 
-ggsave("C:/Users/Usuario/Desktop/Tesis/Imagenes y Figuras/Nuevos/Combinados/calibration_plots_realidad.pdf",
+ggsave(file.path(ruta_figuras, "calibration_plots_realidad.pdf"),
        plot = calibracion,
        width = W,
        height = H+3,
@@ -3500,7 +3509,7 @@ rm(metricas_opta,
 # Agrego los valores del modelo 1:
 
 # Cargo el modelo:
-nc_1 <- nc_open("Datos/ModeloColab/muestras_modelo_1_chequear.nc")
+nc_1 <- nc_open(file.path(ruta_muestras, "muestras_modelo_1.nc"))
 
 # Construyo los posteriors de los xG:
 
@@ -3547,7 +3556,7 @@ rm(eta,
 # Agrego los valores del modelo 2: 
 
 # Cargo el modelo:
-nc_2 <- nc_open("Datos/ModeloColab/muestras_modelo_2_chequear.nc")
+nc_2 <- nc_open(file.path(ruta_muestras, "muestras_modelo_2.nc"))
 
 # Reconstruyo los indices de jugador y posicion:
 posiciones <- unique(datos$posicion_nueva)
@@ -3606,7 +3615,7 @@ rm(eta,
 # Agrego los valores del modelo 3: 
 
 # Cargo el modelo:
-nc_3 <- nc_open("Datos/ModeloColab/muestras_modelo_3_chequear.nc")
+nc_3 <- nc_open(file.path(ruta_muestras, "muestras_modelo_3.nc"))
 
 # Reconstruyo los indices de jugador y posicion:
 posiciones <- unique(datos$posicion_nueva)
@@ -3744,7 +3753,7 @@ crps_todos1 <- ggplot(grilla) +
                                     margin = margin(b = 8)),
         legend.text = element_text(size = 10))
 
-ggsave("C:/Users/Usuario/Desktop/Tesis/Imagenes y Figuras/Nuevos/crps1_todos.pdf",
+ggsave(file.path(ruta_figuras, "crps1_todos.pdf"),
        plot = crps_todos1,
        width = W ,
        height = H,
@@ -3818,7 +3827,7 @@ crps_todos2 <- ggplot(grilla) +
                                     margin = margin(b = 8)),
         legend.text = element_text(size = 10))
 
-ggsave("C:/Users/Usuario/Desktop/Tesis/Imagenes y Figuras/Nuevos/crps2_todos.pdf",
+ggsave(file.path(ruta_figuras, "crps2_todos.pdf"),
        plot = crps_todos2,
        width = W ,
        height = H,
@@ -3892,7 +3901,7 @@ crps_todos3 <- ggplot(grilla) +
                                     margin = margin(b = 8)),
         legend.text = element_text(size = 10))
 
-ggsave("C:/Users/Usuario/Desktop/Tesis/Imagenes y Figuras/Nuevos/crps3_todos.pdf",
+ggsave(file.path(ruta_figuras, "crps3_todos.pdf"),
        plot = crps_todos3,
        width = W ,
        height = H,
@@ -4038,21 +4047,25 @@ crps_resumido3 <- df %>%
         legend.key.width = unit(0.7, "cm"),
         legend.key.height = unit(0.5, "cm"))
 
-ggsave("C:/Users/Usuario/Desktop/Tesis/Imagenes y Figuras/Nuevos/crps1_resumido.pdf",
+ggsave(file.path(ruta_figuras, "crps1_resumido.pdf"),
        plot = crps_resumido1,
        width = W ,
        height = H,
        units = "in")
-ggsave("C:/Users/Usuario/Desktop/Tesis/Imagenes y Figuras/Nuevos/crps2_resumido.pdf",
+ggsave(file.path(ruta_figuras, "crps2_resumido.pdf"),
        plot = crps_resumido2,
        width = W ,
        height = H,
        units = "in")
-ggsave("C:/Users/Usuario/Desktop/Tesis/Imagenes y Figuras/Nuevos/crps3_resumido.pdf",
+ggsave(file.path(ruta_figuras, "crps3_resumido.pdf"),
        plot = crps_resumido3,
        width = W ,
        height = H,
        units = "in")
+
+rm(crps_resumido1, 
+   crps_resumido2,
+   crps_resumido3)
 
 #---- Tamaño de las canchas ----
 
@@ -4131,6 +4144,14 @@ shot_angle(x, y, 110, 70)
 shot_angle(x, y, 105, 68)
 shot_angle(x, y, 100, 65)
 
+rm(datos_a_chequear, 
+   tamaños_canchas, 
+   equipos_cancha_distinta, 
+   shot_angle, 
+   shot_distance, 
+   x,
+   y)
+
 #---- xG vs Goles por jugador ----
 
 xG_vs_goles <- df %>% 
@@ -4174,8 +4195,10 @@ xG_vs_goles <- df %>%
         axis.title.y = element_text(size = 12),
         axis.text.x = element_text(size = 8))
 
-ggsave("C:/Users/Usuario/Desktop/Tesis/Imagenes y Figuras/Nuevos/xG_vs_goles.pdf",
+ggsave(file.path(ruta_figuras, "xG_vs_goles.pdf"),
        plot = xG_vs_goles,
        width = W,
        height = H+1,
        units = "in")
+
+rm(xG_vs_goles)
