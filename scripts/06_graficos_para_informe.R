@@ -1,10 +1,13 @@
-#---- Establezco el tema ----
+#---- Carga de librerias ----
 library(tidyverse)
 library(ggthemes)
 library(paletteer)
 library(patchwork)
 library(ggdist)
+library(magick)
+library(here)
 
+#---- Establezco el tema ----
 tema_mio <- function() {
   theme_bw() +
     theme(
@@ -17,6 +20,7 @@ tema_mio <- function() {
 
 W <- 6
 H <- 4
+ruta_figuras <- here("output", "figuras", "teoricas")
 
 cols <- c("#9BBB59", "#8064A2", "#F3A447","#4BACC6")
 
@@ -64,7 +68,7 @@ p3 <- ggplot(df, aes(x1, pi)) +
 
 grafico_combinado <- p1 | p2 | p3
 
-ggsave("C:/Users/Usuario/Desktop/Tesis/Imagenes y Figuras/relacion_distancia_logit.pdf", 
+ggsave(file.path(ruta_figuras, "relacion_distancia_logit.pdf"), 
        plot = grafico_combinado, 
        width = 12, 
        height = 4, 
@@ -104,7 +108,7 @@ betas <- ggplot(df, aes(x, densidad)) +
         axis.text  = element_text(size = 8)) +
   labs(x = expression(pi), y = expression(p(pi)))
 
-ggsave("C:/Users/Usuario/Desktop/Tesis/Imagenes y Figuras/posibles_beta.pdf", 
+ggsave(file.path(ruta_figuras, "posibles_beta.pdf"), 
        plot = betas, 
        width = W, 
        height = H, 
@@ -181,7 +185,7 @@ p_bottom <- ggplot(df_bottom, aes(iter, value, color = chain)) +
 
 traceplots <- p_top / p_middle / p_bottom
 
-ggsave("C:/Users/Usuario/Desktop/Tesis/Imagenes y Figuras/traceplots.pdf", 
+ggsave(file.path(ruta_figuras, "traceplots.pdf"), 
        plot = traceplots, 
        width = W, 
        height = H, 
@@ -240,7 +244,7 @@ g2 <- ggplot(df_high, aes(x = lag, y = acf)) +
 
 acfs <- g1 + g2
 
-ggsave("C:/Users/Usuario/Desktop/Tesis/Imagenes y Figuras/acf_ejemplos.pdf", 
+ggsave(file.path(ruta_figuras, "acf_ejemplos.pdf"), 
        plot = acfs, 
        width = W+2, 
        height = H, 
@@ -288,7 +292,7 @@ priors <- ggplot(df_priors, aes(x = beta, y = densidad)) +
                      breaks = c(0, 0.25, 0.5, 0.75, 1),
                      labels = c("0", "0,25", "0,5", "0,75", "1"))
 
-ggsave("C:/Users/Usuario/Desktop/Tesis/Imagenes y Figuras/posibles_priors_beta.pdf", 
+ggsave(file.path(ruta_figuras, "posibles_priors_beta.pdf"), 
        plot = priors, 
        width = W, 
        height = H, 
@@ -408,13 +412,15 @@ p3 <- p3 +
 
 compromiso <- p1 / p2 / p3
 
-ggsave("C:/Users/Usuario/Desktop/Tesis/Imagenes y Figuras/compromiso_distribuciones.pdf", 
+ggsave(file.path(ruta_figuras, "compromiso_distribuciones.pdf"), 
        plot = compromiso, 
        width = W, 
        height = H, 
        units = "in")
 
 #---- Interaccion entre Distancia y Angulo ----
+datos <- read_csv(here("data", "processed", "datos_analisis.csv"))
+
 get_midpoint <- function(x) {
   as.numeric(sub("\\((.+),(.+)\\]", "\\1", x)) + 
     (as.numeric(sub("\\((.+),(.+)\\]", "\\2", x)) - 
@@ -449,7 +455,7 @@ interaccion_dist_ang <- datos %>%
 
 rm(get_midpoint)
 
-ggsave("C:/Users/Usuario/Desktop/Tesis/Imagenes y Figuras/interaccion_dist_ang.pdf", 
+ggsave(file.path(ruta_figuras, "interaccion_dist_ang.pdf"), 
        plot = interaccion_dist_ang, 
        width = W + 1, 
        height = H, 
@@ -562,7 +568,7 @@ final_plot <- wrap_elements(final_plot) +
         plot.tag.position = c(-0.02, 0.55),
         plot.margin = margin(l = 15))
 
-ggsave("C:/Users/Usuario/Desktop/Tesis/Imagenes y Figuras/efecto_expit.pdf",
+ggsave(file.path(ruta_figuras, "efecto_expit.pdf"),
        plot = final_plot,
        width = W ,
        height = H,
@@ -612,7 +618,7 @@ sigmas <- ggplot(densidades, aes(x = sigma_jugador, y = Densidad)) +
         axis.title.y = element_text(size = 14),
         text = element_text(size = 12))
 
-ggsave("C:/Users/Usuario/Desktop/Tesis/Imagenes y Figuras/posibles_distrib_sigma.pdf",
+ggsave(file.path(ruta_figuras, "posibles_distrib_sigma.pdf"),
        plot = sigmas,
        width = W+3,
        height = H*0.9,
@@ -638,226 +644,13 @@ ubicacion_disparos <- datos %>%
         legend.text = element_text(size = 10), 
         plot.margin = margin(t = 0, b = 0, l = 5, r = 5))
 
-ggsave("C:/Users/Usuario/Desktop/Tesis/Imagenes y Figuras/ubicacion_disparos.pdf",
+ggsave(file.path(ruta_figuras, "ubicacion_disparos.pdf"),
        plot = ubicacion_disparos,
        width = W,
        height = H,
        units = "in")
 
-library(magick)
-install.packages("pdftools")
-img <- image_read_pdf("C:/Users/Usuario/Desktop/Tesis/Imagenes y Figuras/ubicacion_disparos.pdf", density = 300)
-img_trimmed <- image_trim(img)
-image_write(img_trimmed, "C:/Users/Usuario/Desktop/Tesis/Imagenes y Figuras/ubicacion_disparos.pdf", format = "pdf")
-
-rm(ubicacion_disparos, 
-   img, 
-   img_trimmed)
-
-#---- Ejemplo distribuciones bimodales ----
-
-library(distributional)
-
-set.seed(1910)
-
-jugadores <- c("Jugador F",
-               "Jugador E",
-               "Jugador D",
-               "Jugador C",
-               "Jugador B",
-               "Jugador A")
-
-means <- c(0.08, 0.10, 0.12, 0.23, 0.28, 0.27)
-
-draws <- data.frame(
-  region = rep(jugadores, each = 2000),
-  value = c(rnorm(2000, means[1], 0.03),
-            rnorm(2000, means[2], 0.03),
-            rnorm(2000, means[3], 0.03),
-            rnorm(2000, means[4], 0.03),
-            rnorm(2000, means[5], 0.03),
-            rnorm(2000, means[6], 0.03)))
-
-ejemplos_bimodales <- ggplot(draws, aes(x = value, y = fct_rev(region))) +
-  stat_halfeye(normalize = "groups",
-               fill = "#F3A447",
-               color = "#F3A447",
-               alpha = 0.6,
-               .width = 0.9,
-               point_interval = mean_qi,
-               interval_color = "black",
-               point_color = "black") +
-  labs(x = "Probabilidad de gol",
-       y = NULL) +
-  coord_cartesian(xlim = c(-0.06, 0.405)) +
-  tema_mio() +
-  theme(axis.text.y = element_text(size = 12),
-        panel.grid.major.x = element_line(color = "grey80", linewidth = 0.5),
-        panel.grid.minor.x = element_line(color = "grey90", linewidth = 0.3),
-        panel.grid.major.y = element_line(color = "grey80", linewidth = 0.5),
-        panel.grid.minor.y = element_line(color = "grey90", linewidth = 0.3),
-        axis.title.x = element_text(margin = margin(t = 10),
-                                    size = 12),
-        axis.text.x = element_blank())
-
-draws_combined <- draws %>%
-  reframe(value = value, .groups = "drop") %>%
-  mutate(grupo = "Nuevo jugador")
-
-normal_ref <- data.frame(
-  grupo = unique(draws_combined$grupo),
-  dist  = dist_normal(mean(draws_combined$value), 0.07)
-)
-
-bimodal <- ggplot(draws_combined, aes(x = value, y = grupo)) +
-  stat_halfeye(normalize = "groups",
-               fill = "#F3A447",
-               color = "#F3A447",
-               alpha = 0.6,
-               .width = 0.9,
-               point_interval = mean_qi,
-               interval_color = "black",
-               point_color = "black") +
-  stat_slab(data = normal_ref,
-            aes(y = grupo, dist = dist),
-            inherit.aes = FALSE,
-            normalize = "groups",
-            fill = NA,
-            color = "grey50",
-            linetype = "dashed",
-            linewidth = 0.7,
-            alpha = 1) +
-  labs(x = "Probabilidad de gol",
-       y = NULL) +
-  coord_cartesian(xlim = c(-0.06, 0.405)) +
-  scale_y_discrete(expand = expansion(add = c(0.1, 0.2))) +
-  tema_mio() +
-  theme(axis.text.y = element_text(size = 12),
-        panel.grid.major.x = element_line(color = "grey80", linewidth = 0.5),
-        panel.grid.minor.x = element_line(color = "grey90", linewidth = 0.3),
-        panel.grid.major.y = element_line(color = "grey80", linewidth = 0.5),
-        panel.grid.minor.y = element_line(color = "grey90", linewidth = 0.3),
-        axis.title.x = element_text(size = 12),
-        axis.text.x = element_text(size = 8))
-
-combinado <- (ejemplos_bimodales + labs(x=NULL)) / bimodal +
-  plot_layout(heights = c(2, 1.3)) 
-
-ggsave("C:/Users/Usuario/Desktop/Tesis/Imagenes y Figuras/bimodales.pdf",
-       plot = combinado,
-       width = W,
-       height = H*1.2,
-       units = "in")
-
-rm(jugadores, 
-   means, 
-   draws, 
-   draws_combined, 
-   normal_ref, 
-   ejemplos_bimodales,
-   bimodal, 
-   combinado)
-
-#---- CRPS teorico ----
-
-set.seed(123)
-
-pred <- round(rgamma(10000, shape = 6, scale = 1.8))
-obs  <- 15
-
-cdf <- tibble(x = pred) %>%
-  count(x) %>%
-  complete(x = min(x):max(x), fill = list(n = 0)) %>%
-  mutate(p = n / sum(n),
-         F = cumsum(p),
-         x_next = lead(x, default = max(x) + 1))
-
-p1 <- ggplot(tibble(pred = pred), aes(pred)) +
-  geom_histogram(aes(y = after_stat(density)),
-                 binwidth = 2,
-                 boundary = -0.5,
-                 fill = "#F3A447",
-                 alpha = 0.7,
-                 color = "#F3A447") +
-  geom_hline(yintercept = 0, color = "grey90", linewidth = 0.3) +
-  geom_vline(xintercept = obs,
-             colour = "gray50",
-             linetype = "dashed",
-             linewidth = 1) +
-  scale_x_continuous(breaks = seq(0, max(pred), length.out = 6),
-                     labels = scales::number(seq(0, 0.5, length.out = 6),
-                                             decimal.mark = ",")) +
-  labs(y = NULL,
-       x = NULL) +
-  tema_mio() + 
-  theme(axis.text.y = element_blank(),
-        axis.text.x = element_text(size = 10),
-        axis.title.x = element_text(size = 12),
-        axis.ticks.y = element_blank())
-
-p2 <- ggplot() +
-  geom_rect(data = filter(cdf, x < obs),
-            aes(xmin = x,
-                xmax = pmin(x_next, obs),
-                ymin = 0,
-                ymax = F),
-            fill = "#F3A447",
-            alpha = 0.45) +
-  geom_rect(data = filter(cdf, x >= obs),
-            aes(xmin = x,
-                xmax = x_next,
-                ymin = F,
-                ymax = 1),
-            fill = "#F3A447",
-            alpha = 0.45) +
-  geom_step(data = cdf,
-            aes(x, F),
-            direction = "hv",
-            colour = "#F3A447",
-            linewidth = 1) +
-  geom_vline(xintercept = obs,
-             colour = "gray50",
-             linetype = "dashed",
-             linewidth = 1) +
-  coord_cartesian(ylim = c(0, 1)) +
-  scale_x_continuous(breaks = seq(0, max(pred), length.out = 6),
-                     labels = scales::number(seq(0, 0.5, length.out = 6),
-                                             decimal.mark = ",")) +
-  labs(y = NULL,
-       x = NULL) + 
-  tema_mio() + 
-  theme(axis.text.y = element_blank(),
-        axis.text.x = element_text(size = 10),
-        axis.title.x = element_text(size = 12),
-        axis.ticks.y = element_blank())
-
-library(cowplot)
-
-g <- plot_grid(p1, p2, ncol = 2, align = "h")
-
-combinado <- ggdraw() +
-  draw_plot(g, y = 0.08, height = 0.92) +
-  draw_text("X",
-            x = 0.5,
-            y = 0.035,
-            size = 16,
-            fontface = "italic")
-
-ggsave("C:/Users/Usuario/Desktop/Tesis/Imagenes y Figuras/crps_teorico.pdf",
-       plot = combinado,
-       width = W + 2,
-       height = H,
-       units = "in")
-
-rm(combinado, 
-   g, 
-   p1, 
-   p2, 
-   pred, 
-   obs, 
-   cdf)
-
-#---- Ver si poner esto para los intervalos -----
+#---- Histograma para intervalo de prior -----
 
 expit <- function(x) exp(x) / (1 + exp(x))
 
@@ -919,9 +712,8 @@ final_plot <- (p_b0_1 | p_pi_1) %>%
         plot.tag.position = c(-0.01, 0.55),
         plot.margin = margin(l = 15))
 
-ggsave("C:/Users/Usuario/Desktop/Tesis/Imagenes y Figuras/mostrar_intervalo.pdf",
+ggsave(file.path(ruta_figuras, "mostrar_intervalo.pdf"),
        plot = final_plot,
        width = W + 2,
        height = H,
        units = "in")
-
