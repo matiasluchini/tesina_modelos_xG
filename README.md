@@ -1,6 +1,6 @@
 # Modelos de probabilidad de gol: evaluación del efecto jugador en la Liga Profesional de Fútbol
 
-Repositorio de la tesina de grado de **Matías Luchini** (Facultad de Ciencias Económicas y Estadística, Universidad Nacional de Rosario). Contiene el código para reproducir el análisis: obtención de los datos de disparos de la Liga Profesional y la Copa de la Liga (temporadas 2023 y 2024), limpieza de la base, ajuste de tres modelos bayesianos de xG y generación de resultados y figuras.
+Repositorio de la tesina de grado de **Matías Luchini** (Facultad de Ciencias Económicas y Estadística, Universidad Nacional de Rosario). Contiene el código para reproducir el análisis: obtención de los datos de disparos de la Liga Profesional de Fútbol de Argentina (años 2023 y 2024), limpieza de la base, ajuste de tres modelos bayesianos de xG y generación de resultados y figuras.
 
 ## Datos
 
@@ -8,13 +8,13 @@ Los archivos pesados no están en el repositorio. Se publicaron en Zenodo:
 
 | Contenido | DOI | Acceso |
 |---|---|---|
-| Muestras de la distribución posterior de los modelos (`.nc` y CSV de 40 jugadores) | [10.5281/zenodo.23221639](https://doi.org/10.5281/zenodo.23221639) | Abierto |
-| Datos originales de disparos descargados de FotMob (un CSV por partido) | [10.5281/zenodo.23238800](https://doi.org/10.5281/zenodo.23238800) | Restringido (se concede para replicación) |
+| Muestras de la distribución a posteriori de los modelos (`.nc` y `.csv`) | [10.5281/zenodo.23221639](https://doi.org/10.5281/zenodo.23221639) | Abierto |
+| Datos originales de disparos descargados de FotMob (un `.csv` por partido) | [10.5281/zenodo.23238800](https://doi.org/10.5281/zenodo.23238800) | Restringido (se concede para replicación) |
 
 **Dónde copiar lo descargado:**
 
 - Muestras de los modelos → `data/processed/muestras_modelos/`
-- CSV de partidos de FotMob → `data/raw/fotmob/partidos/<torneo><año>/` (carpetas `copa2023`, `liga2023`, `copa2024` y `liga2024`). Esta carpeta **no está en el repositorio**: hay que crearla y llenarla pidiendo acceso al depósito de Zenodo o regenerándola con el notebook `02_web_scraping.ipynb`.
+- `.csv` de partidos de FotMob → `data/raw/fotmob/partidos/<torneo><año>/` (carpetas `copa2023`, `liga2023`, `copa2024` y `liga2024`). Esta carpeta **no está en el repositorio**: hay que crearla y llenarla pidiendo acceso al depósito de Zenodo o regenerándola con el notebook `02_web_scraping.ipynb`.
 
 Los datos originales provienen de FotMob y FBref y están sujetos a sus términos de uso. Se comparten únicamente para permitir la replicación de la tesina.
 
@@ -56,7 +56,6 @@ Los archivos `.rds`, la carpeta `data/raw/fotmob/partidos/` y la carpeta `data/p
   ```r
   renv::restore()
   ```
-  En Windows, instalar `rstan` puede requerir Rtools.
 - **Google Colab** para los notebooks `02` y `04`. Las dependencias están en las primeras celdas de cada notebook. El scraping usa `LanusStats==1.8.2`.
 
 Todas las rutas son relativas a la raíz del proyecto (paquete `here`), así que hay que abrir siempre el `.Rproj`.
@@ -70,10 +69,10 @@ Todas las rutas son relativas a la raíz del proyecto (paquete `here`), así que
 | 3 | Colab | `02_web_scraping.ipynb`, secciones de FotMob: descarga los disparos de cada partido, en tandas de 10 archivos (límite de descargas de Colab) | `codigos_fotmob.xlsx` | `data/raw/fotmob/partidos/<torneo>/fotmob_<torneo>_partido<N>.csv` |
 | 4 | Colab | `02_web_scraping.ipynb`, sección de FBref: descarga la posición de los jugadores | — | `data/raw/fbref/info_jugadores_<torneo>.csv` |
 | 5 | Colab | `02_web_scraping.ipynb`, sección de equipos: descarga los equipos con su ID de FotMob | — | `data/raw/fotmob/equipos/id_equipos_<torneo>.csv` |
-| 6 | R | `03a_preparar_datos.R` junta los partidos, corrige nombres y prepara las listas de jugadores (tarda varios minutos) | pasos 3 y 4 | `data/intermediate/` |
-| 7 | **Manual** | Se emparejan los nombres de jugadores de FotMob con los de FBref. Una parte se hizo con ayuda de una IA y el resto a mano | `data/intermediate/jugadores_*_1/_2.csv` | `data/manual/nombre_jugadores_fotmob_fbref.xlsx` |
+| 6 | R | `03a_preparar_datos.R` junta los partidos, corrige nombres y prepara las listas de jugadores | pasos 3 y 4 | `data/intermediate/` |
+| 7 | **Manual** | Se emparejan los nombres de jugadores de FotMob con los de FBref. Una parte se hizo con ayuda de una AI y el resto a mano | `data/intermediate/jugadores_*_1/_2.csv` | `data/manual/nombre_jugadores_fotmob_fbref.xlsx` |
 | 8 | R | `03b_limpieza_disparos.R` hace la limpieza final y arma las bases | pasos 5, 6 y 7 | `data/processed/*.csv` |
-| 9 | Colab | `04_entrenamiento_modelos.ipynb` ajusta los tres modelos bayesianos | `disparos_2023_2024_reducido.csv` | `.nc` y `muestras_40_jugadores_equiespaciados.csv` |
+| 9 | Colab | `04_entrenamiento_modelos.ipynb` ajusta los tres modelos bayesianos | `disparos_2023_2024_reducido.csv` | `data/processed/muestras_modelos/*` |
 | 10 | R | `05_analisis_de_resultados.R` analiza los resultados de los modelos | pasos 8 y 9 | figuras en `output/figuras/` |
 | 11 | R | `06_graficos_para_informe.R` genera los gráficos del informe | pasos 8 y 9 | figuras en `output/figuras/` |
 
@@ -106,7 +105,3 @@ Las genera `03b_limpieza_disparos.R`:
 ## Licencia
 
 El código se distribuye bajo licencia MIT (ver `LICENSE`). Los datos provienen de FotMob y FBref y están sujetos a sus términos de uso; la licencia de cada depósito de Zenodo figura en su página.
-
-## Cómo citar
-
-Luchini, M. *Modelos de probabilidad de gol: evaluación del efecto jugador en la Liga Profesional de Fútbol*. Tesina de grado, Universidad Nacional de Rosario. Código: https://github.com/matiasluchini/tesina_modelos_xG. Datos: https://doi.org/10.5281/zenodo.23221639 y https://doi.org/10.5281/zenodo.23238800.
