@@ -44,9 +44,8 @@ tesina_modelos_xG/
 │   ├── 04_entrenamiento_modelos.ipynb
 │   ├── 05_analisis_de_resultados.R
 │   └── 06_graficos_para_informe.R
-├── informe/
-│   └── tesina.pdf       Informe de la tesina en PDF
 └── output/
+    ├── tesina_informe.pdf       Informe de la tesina en PDF
     └── figuras/
 ```
 
