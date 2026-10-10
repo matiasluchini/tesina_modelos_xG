@@ -6,10 +6,10 @@ Repositorio de la tesina de grado de **Matías Luchini** (Facultad de Ciencias E
 
 Los archivos pesados no están en el repositorio. Se publicaron en Zenodo:
 
-| Contenido | DOI | Acceso |
-|---|---|---|
-| Muestras de la distribución a posteriori de los modelos (`.nc` y `.csv`) | [10.5281/zenodo.23221639](https://doi.org/10.5281/zenodo.23221639) | Abierto |
-| Datos originales de disparos descargados de FotMob (un `.csv` por partido) | [10.5281/zenodo.23238800](https://doi.org/10.5281/zenodo.23238800) | Restringido |
+| Contenido | DOI |
+|---|---|
+| Muestras de la distribución a posteriori de los modelos (`.nc` y `.csv`) | [10.5281/zenodo.23221639](https://doi.org/10.5281/zenodo.23221639) |
+| Datos originales de disparos descargados de FotMob (un `.csv` por partido) | [10.5281/zenodo.23238800](https://doi.org/10.5281/zenodo.23238800) |
 
 **Dónde copiar lo descargado:**
 
