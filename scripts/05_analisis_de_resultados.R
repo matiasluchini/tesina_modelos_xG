@@ -14,6 +14,7 @@ library(posterior)
 library(scoringRules)
 library(readxl)
 library(purrr)
+library(ragg)
 library(here)
 
 #---- Tema de graficos ----
@@ -3062,11 +3063,13 @@ p_m1_beta3 <- make_trace(df_m1_beta3, expression(beta[3]), show_x = TRUE)
 
 traceplots_m1 <- p_m1_alpha / p_m1_beta1 / p_m1_beta2 / p_m1_beta3
 
-ggsave(file.path(ruta_figuras, "traceplots_m1.pdf"),
-       plot = traceplots_m1,
-       width = W,
-       height = H,
-       units = "in")
+ggsave(file.path(ruta_figuras, "traceplots_m1.png"),
+       plot = traceplots_m1, 
+       width = W, 
+       height = H, 
+       units = "in",
+       dpi = 300,
+       device = agg_png)
 
 rm(df_m1_alpha, 
    df_m1_beta1, 
@@ -3166,11 +3169,13 @@ traceplots_m2_alphas <- traceplots_m2_alphas +
 combinado <- traceplots_m2_alphas / traceplots_m2_betas +
   plot_layout(heights = c(1, 1, 1, 1, 3.5))
 
-ggsave(file.path(ruta_figuras, "traceplots_m2.pdf"),
+ggsave(file.path(ruta_figuras, "traceplots_m2.png"),
        plot = combinado,
-       width = W,
-       height = H+3,
-       units = "in")
+       width = W, 
+       height = H + 3,
+       units = "in",
+       dpi = 300, 
+       device = agg_png)
 
 rm(df_m2_beta1, 
    df_m2_beta2, 
@@ -3284,11 +3289,13 @@ traceplots_m3_alphas <- traceplots_m3_alphas +
 combinado <- traceplots_m3_alphas / traceplots_m3_betas +
   plot_layout(heights = c(1, 1, 1, 1, 4.5))
 
-ggsave(file.path(ruta_figuras, "traceplots_m3.pdf"),
+ggsave(file.path(ruta_figuras, "traceplots_m3.png"),
        plot = combinado,
-       width = W,
+       width = W, 
        height = H + 4,
-       units = "in")
+       units = "in",
+       dpi = 300, 
+       device = agg_png)
 
 rm(df_m3_beta1,
    df_m3_beta2, 
